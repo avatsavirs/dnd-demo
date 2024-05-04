@@ -14,7 +14,7 @@ export default function Column({ id, cards, onDrop, title }) {
     <ColumnWrapper ref={dropRef}>
       <h2>{title}</h2>
       {cards.map((card) => (
-        <div>{card.text}</div>
+        <Card key={card.id} id={card.id} text={card.text} />
       ))}
     </ColumnWrapper>
   );
