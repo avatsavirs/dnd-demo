@@ -1,3 +1,4 @@
+import Column from "./Column";
 import DnDProvider from "./DnDProvider";
 
-export { DnDProvider };
+export { Column, DnDProvider };
