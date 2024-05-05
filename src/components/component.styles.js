@@ -29,7 +29,9 @@ export const ColumnTitleWrapper = styled.div`
 
 export const Text = styled.p`
   ${(props) => `
-    font-weight: ${props.weight};
-    font-size: ${props.size}px;
+    font-family: "Roboto", sans-serif;
+    font-weight: ${props.weight ?? 400};
+    font-size: ${props.size ?? 14}px;
+    color: ${props.color ?? '#333'}
   `}
 `;

@@ -31,31 +31,37 @@ export default function App() {
   const [cards, setCards] = useState([
     {
       id: "card-1",
+      title: "Card 1 Title",
       text: "Card 1",
       col: "col-1",
     },
     {
       id: "card-2",
+      title: "Card 2 Title",
       text: "Card 2",
       col: "col-1",
     },
     {
       id: "card-3",
+      title: "Card 3 Title",
       text: "Card 3",
       col: "col-2",
     },
     {
       id: "card-4",
+      title: "Card 4 Title",
       text: "Card 4",
       col: "col-2",
     },
     {
       id: "card-5",
+      title: "Card 5 Title",
       text: "Card 5",
       col: "col-3",
     },
     {
       id: "card-6",
+      title: "Card 6 Title",
       text: "Card 6",
       col: "col-3",
     },

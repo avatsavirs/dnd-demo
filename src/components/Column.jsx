@@ -17,7 +17,9 @@ export default function Column({ id, cards, title, activeCardId }) {
   return (
     <ColumnWrapper ref={setNodeRef}>
       <ColumnTitleWrapper>
-        <Text as="h2" size="16" weight="600">{title}</Text>
+        <Text as="h2" size="16" weight="600">
+          {title}
+        </Text>
       </ColumnTitleWrapper>
       <SortableContext items={cards} strategy={verticalListSortingStrategy}>
         {cards.map((card) => (
