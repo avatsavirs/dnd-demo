@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {
   DndContext,
-  closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
   DragOverlay,
+  rectIntersection,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Card, Column } from "./components";
@@ -70,6 +70,7 @@ export default function App() {
 
   function handleDragOver(event) {
     const { active, over } = event;
+    if (!over) return;
     const { id: activeId } = active;
     const {
       id: overId,
@@ -120,7 +121,7 @@ export default function App() {
     <AppWrapper>
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
+        collisionDetection={rectIntersection}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
