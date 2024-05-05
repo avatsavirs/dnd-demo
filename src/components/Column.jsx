@@ -4,10 +4,10 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import Card from "./Card";
-import { ColumnWrapper } from "./component.styles";
+import { ColumnTitleWrapper, ColumnWrapper, Text } from "./component.styles";
 import { useDroppable } from "@dnd-kit/core";
 
-export default function Column({ id, cards, activeCardId }) {
+export default function Column({ id, cards, title, activeCardId }) {
   const { setNodeRef } = useDroppable({
     id,
     data: {
@@ -16,6 +16,9 @@ export default function Column({ id, cards, activeCardId }) {
   });
   return (
     <ColumnWrapper ref={setNodeRef}>
+      <ColumnTitleWrapper>
+        <Text as="h2" size="16" weight="600">{title}</Text>
+      </ColumnTitleWrapper>
       <SortableContext items={cards} strategy={verticalListSortingStrategy}>
         {cards.map((card) => (
           <Card key={card.id} card={card} isActive={card.id === activeCardId} />
@@ -27,6 +30,7 @@ export default function Column({ id, cards, activeCardId }) {
 
 Column.propTypes = {
   id: PropTypes.string,
+  title: PropTypes.string,
   cards: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

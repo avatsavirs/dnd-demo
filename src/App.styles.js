@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const AppWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  gap: 24px;
   padding: 20px;
+  height: 100vh;
 `;

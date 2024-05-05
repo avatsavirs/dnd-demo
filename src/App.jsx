@@ -129,6 +129,7 @@ export default function App() {
           <Column
             key={col.id}
             id={col.id}
+            title={col.label}
             cards={cards.filter((card) => card.col === col.id)}
             activeCardId={activeCardId}
           />

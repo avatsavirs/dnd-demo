@@ -1,22 +1,35 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const cardStyles = css`
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f4f4f4;
+`;
 
 export const CardWrapper = styled.div`
+  ${cardStyles}
   opacity: ${(props) => (props.$isDragging ? 0.5 : 1)};
-  opacity: ${(props) => (props.$isActive ? 0.1 : 1)};
-  padding: 10px;
-  marginbottom: 10px;
-  backgroundcolor: lightgrey;
+  opacity: ${(props) => (props.$isActive ? 0.3 : 1)};
   cursor: move;
-  border: 1px solid black;
-  border-radius: 8px;
-  margin-bottom: 16px;
 `;
 
 export const ColumnWrapper = styled.div`
-  width: 30%;
-  min-height: 400px;
-  background-color: #f0f0f0;
-  padding: 10px;
-  border: 1px solid black;
-  border-radius: 8px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border: 1px solid transparent;
+`;
+
+export const ColumnTitleWrapper = styled.div`
+  ${cardStyles}
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Text = styled.p`
+  ${(props) => `
+    font-weight: ${props.weight};
+    font-size: ${props.size}px;
+  `}
 `;
