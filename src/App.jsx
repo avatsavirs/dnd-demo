@@ -33,6 +33,7 @@ export default function App() {
       id: "card-1",
       title: "Card 1 Title",
       text: "Card 1",
+      imgUrl: "https://placehold.co/400",
       col: "col-1",
     },
     {
@@ -50,6 +51,7 @@ export default function App() {
     {
       id: "card-4",
       title: "Card 4 Title",
+      imgUrl: "https://placehold.co/400",
       text: "Card 4",
       col: "col-2",
     },
@@ -62,6 +64,7 @@ export default function App() {
     {
       id: "card-6",
       title: "Card 6 Title",
+      imgUrl: "https://placehold.co/400",
       text: "Card 6",
       col: "col-3",
     },

@@ -32,6 +32,11 @@ export const Text = styled.p`
     font-family: "Roboto", sans-serif;
     font-weight: ${props.weight ?? 400};
     font-size: ${props.size ?? 14}px;
-    color: ${props.color ?? '#333'}
+    color: ${props.color ?? "#333"}
   `}
+`;
+
+export const CardImage = styled.img`
+  width: 100%;
+  object-fit: cover;
 `;

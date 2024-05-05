@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { CardWrapper, Text } from "./component.styles";
+import { CardImage, CardWrapper, Text } from "./component.styles";
 
 export default function Card({ card, isActive }) {
   const {
@@ -27,7 +27,10 @@ export default function Card({ card, isActive }) {
       {...attributes}
       {...listeners}
     >
-      <Text size="16" weight="500">{card.title}</Text>
+      {card.imgUrl ? <CardImage src={card.imgUrl} alt={card.title} /> : null}
+      <Text size="16" weight="500">
+        {card.title}
+      </Text>
       <Text color="#717171">{card.text}</Text>
     </CardWrapper>
   );
@@ -39,5 +42,6 @@ Card.propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
     text: PropTypes.string,
+    imgUrl: PropTypes.string,
   }),
 };
