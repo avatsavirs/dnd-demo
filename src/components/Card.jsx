@@ -1,25 +1,28 @@
 import PropTypes from "prop-types";
-import { useDrag } from "react-dnd";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { CardWrapper } from "./component.styles";
-import { DND_CARD_TYPE } from "../App.constants";
 
-export default function Card({ id, text }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: DND_CARD_TYPE,
-    item: { id, text },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
+export default function Card({ card, isActive }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: card.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   return (
-    <CardWrapper ref={drag} isDragging={isDragging}>
-      {text}
+    <CardWrapper $isActive={isActive} ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {card.text}
     </CardWrapper>
   );
 }
 
 Card.propTypes = {
-  id: PropTypes.number,
-  text: PropTypes.string,
+  isActive: PropTypes.bool,
+  card: PropTypes.shape({
+    id: PropTypes.string,
+    text: PropTypes.string,
+  }),
 };

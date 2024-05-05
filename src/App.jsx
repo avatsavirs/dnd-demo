@@ -1,60 +1,144 @@
-import { Column, DnDProvider } from "./components";
-import { AppWrapper } from "./App.styles";
 import { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverlay,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { Card, Column } from "./components";
+import { AppWrapper } from "./App.styles";
 
-function App() {
-  const [columns, setColumns] = useState([
+export default function App() {
+  const [activeCardId, setActiveCardId] = useState();
+  const [columns] = useState([
     {
-      id: "col_1",
-      label: "Column 1",
-      cards: [
-        { id: 1, text: "Card 1" },
-        { id: 2, text: "Card 2" },
-      ],
+      id: "col-1",
+      label: "Column A",
     },
     {
-      id: "col_2",
-      label: "Column 2",
-      cards: [{ id: 3, text: "Card 3" }],
+      id: "col-2",
+      label: "Column B",
     },
     {
-      id: "col_3",
-      label: "Column 3",
-      cards: [{ id: 4, text: "Card 4" }],
+      id: "col-3",
+      label: "Column C",
+    },
+  ]);
+  const [cards, setCards] = useState([
+    {
+      id: "card-1",
+      text: "Card 1",
+      col: "col-1",
+    },
+    {
+      id: "card-2",
+      text: "Card 2",
+      col: "col-1",
+    },
+    {
+      id: "card-3",
+      text: "Card 3",
+      col: "col-2",
+    },
+    {
+      id: "card-4",
+      text: "Card 4",
+      col: "col-2",
+    },
+    {
+      id: "card-5",
+      text: "Card 5",
+      col: "col-3",
+    },
+    {
+      id: "card-6",
+      text: "Card 6",
+      col: "col-3",
     },
   ]);
 
-  function handleDrop(updatedCard, targetColumnId) {
-    setColumns((currentColumns) =>
-      currentColumns.reduce((newColumns, col) => {
-        return [
-          ...newColumns,
-          {
-            ...col,
-            cards: [
-              ...col.cards.filter((card) => card.id !== updatedCard.id),
-              col.id === targetColumnId && updatedCard,
-            ].filter(Boolean),
-          },
-        ];
-      }, []),
-    );
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  function handleDragOver(event) {
+    const { active, over } = event;
+    const { id: activeId } = active;
+    const {
+      id: overId,
+      data: {
+        current: { type: overType },
+      },
+    } = over;
+    if (activeId === overId) return;
+    if (overType === "column-drop") {
+      setCards((currentCards) => {
+        const currentCardsCopy = [...currentCards];
+        const activeIndex = currentCardsCopy.findIndex(
+          (card) => card.id === activeId,
+        );
+        currentCardsCopy[activeIndex].col = overId;
+        return arrayMove(currentCardsCopy, activeIndex, cards.length - 1);
+      });
+      return;
+    }
+    setCards((currentCards) => {
+      const currentCardsCopy = [...currentCards];
+      const activeIndex = currentCardsCopy.findIndex(
+        (card) => card.id === activeId,
+      );
+      const overIndex = currentCardsCopy.findIndex(
+        (card) => card.id === overId,
+      );
+      const activeColId = currentCardsCopy[activeIndex].col;
+      const overColId = currentCardsCopy[overIndex].col;
+      if (activeColId === overColId) {
+        return arrayMove(currentCardsCopy, activeIndex, overIndex);
+      }
+      currentCardsCopy[activeIndex].col = overColId;
+      return arrayMove(currentCardsCopy, activeIndex, overIndex - 1);
+    });
   }
+
+  function handleDragStart(event) {
+    const { active } = event;
+    setActiveCardId(active.id);
+  }
+
+  function handleDragEnd() {
+    setActiveCardId(null);
+  }
+
   return (
-    <DnDProvider>
-      <AppWrapper>
+    <AppWrapper>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
         {columns.map((col) => (
           <Column
             key={col.id}
             id={col.id}
-            title={col.label}
-            cards={col.cards}
-            onDrop={handleDrop}
+            cards={cards.filter((card) => card.col === col.id)}
+            activeCardId={activeCardId}
           />
         ))}
-      </AppWrapper>
-    </DnDProvider>
+        <DragOverlay>
+          {activeCardId ? (
+            <Card card={cards.find((card) => card.id === activeCardId)} />
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    </AppWrapper>
   );
 }
-
-export default App;

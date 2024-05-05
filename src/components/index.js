@@ -1,4 +1,4 @@
 import Column from "./Column";
-import DnDProvider from "./DnDProvider";
+import Card from "./Card";
 
-export { Column, DnDProvider };
+export { Column, Card };
